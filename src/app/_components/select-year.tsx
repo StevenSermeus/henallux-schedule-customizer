@@ -30,7 +30,6 @@ export default function SelectYear({
   });
   const [value, setValue] = React.useState<string[]>([]);
   useEffect(() => {
-    console.log("reset year");
     setValue([]);
   }, [orientation_id, implentation_id]);
   return (

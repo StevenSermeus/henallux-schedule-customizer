@@ -8,7 +8,6 @@ export const getImplentations = unstable_cache(
 );
 
 async function INTERNAL_getImplentations() {
-  console.log("Fetching implentation", env.BEARER_TOKEN);
   const response = await fetch(
     "https://portail.henallux.be/api/implantations/my",
     {
@@ -121,8 +120,6 @@ async function INTERNAL_getYear(
   implentation_id: number,
   orientation_id: number,
 ) {
-  console.log("Fetching year", env.BEARER_TOKEN);
-  console;
   const response = await fetch(
     `https://portail.henallux.be/api/classes/orientation_and_implantation/${orientation_id}/${implentation_id}`,
     {
@@ -173,8 +170,6 @@ async function INTERNAL_getClass(
   orientation_id: number,
   implantation_id: number,
 ) {
-  console.log("Fetching class", env.BEARER_TOKEN);
-  console.log(year_id, orientation_id, implantation_id);
   const response = await fetch(
     `https://portail.henallux.be/api/classes/classe_and_orientation_and_implantation/${year_id}/${orientation_id}/${implantation_id}`,
     {

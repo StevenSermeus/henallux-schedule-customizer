@@ -38,7 +38,6 @@ export default function SelectClasses({
   });
   const [value, setValue] = React.useState<string[]>([]);
   useEffect(() => {
-    console.log("reset");
     setValue([]);
   }, [orientation_id, implentation_id]);
   return (

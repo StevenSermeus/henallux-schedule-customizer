@@ -66,7 +66,6 @@ export async function GET(request: Request) {
     ),
   );
   const flatEvents = events.flat().filter((event) => event !== null);
-  console.log(flatEvents);
   const res = ics.createEvents(flatEvents);
   if (res.error ?? !res.value) {
     console.error(res.error, "Failed to create ics file");
