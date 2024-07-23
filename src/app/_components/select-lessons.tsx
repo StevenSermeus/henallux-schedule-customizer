@@ -76,7 +76,6 @@ export default function SelectLessons({
     yearsNames,
   );
   useEffect(() => {
-    console.log("reset");
     setValue([]);
   }, [orientation_id, implentation_id]);
   return (
@@ -107,6 +106,7 @@ export default function SelectLessons({
               <TooltipTrigger asChild>
                 <Button
                   variant="outline"
+                  className="min-w-[500px] border-2"
                   onClick={() => {
                     navigator.clipboard
                       .writeText(url)
@@ -130,7 +130,8 @@ export default function SelectLessons({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="outline"
+                  variant="default"
+                  className="min-w-[500px]"
                   onClick={() => {
                     window.open(url, "_blank");
                     toast.success("Téléchargement commencé");
