@@ -254,3 +254,104 @@ async function INTERNAL_getCourse(class_id: number) {
 export const getCourse = unstable_cache(INTERNAL_getCourse, ["course"], {
   revalidate: 6 * 60 * 60,
 });
+
+async function INTERNAL_getLocaux(implentation_id: number) {
+  const response = await fetch(
+    `https://portail.henallux.be/api/locals/implantation/${implentation_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${env.BEARER_TOKEN}`,
+      },
+    },
+  );
+  const res = (await response.json()) as {
+    success: boolean;
+    data: {
+      id: number;
+      id_hyperplanning: string;
+      local_name: string;
+      implantation_prefix: string;
+      implantation_name: string;
+      implantation_id: string;
+      created_at: string;
+      updated_at: string;
+      key: number;
+      value: string;
+    }[];
+    count: number;
+    message: string;
+    code: number;
+  };
+  return res.data.map((local) => {
+    return {
+      key: local.id,
+      name: local.local_name,
+    };
+  });
+}
+
+export const getLocaux = unstable_cache(INTERNAL_getLocaux, ["locaux"], {
+  revalidate: 8 * 60 * 60,
+});
+
+async function INTERNAL_getLocalSchedule(local_id: number, today: Date) {
+  const response = await fetch(
+    `https://portail.henallux.be/api/plannings/local/[%22${local_id}%22]`,
+    {
+      headers: {
+        Authorization: `Bearer ${env.BEARER_TOKEN}`,
+      },
+    },
+  );
+  const res = (await response.json()) as {
+    CATEGORIES: string;
+    created_date: string;
+    modified_date: string;
+    title: string;
+    start?: string; //20240515T170000Z
+    end?: string; // 20240515T170000Z
+    text: string;
+    location: string;
+    details: string;
+    promotions: string;
+    "X-ALT-DESC;FMTTYPE=text/html": string;
+  }[];
+
+  const schedule = res.map((r) => ({
+    title: r.title,
+    start: r.start
+      ? new Date(
+          r.start.replace(
+            /(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/,
+            "$1-$2-$3T$4:$5:$6Z",
+          ),
+        )
+      : null,
+    end: r.end
+      ? new Date(
+          r.end.replace(
+            /(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/,
+            "$1-$2-$3T$4:$5:$6Z",
+          ),
+        )
+      : null,
+    location: r.location,
+    text: r.text,
+  }));
+  return schedule.filter((s) => {
+    if (!s.start || !s.end) {
+      return false;
+    }
+    return (
+      s.start.getDate() === today.getDate() &&
+      s.start.getMonth() === today.getMonth() &&
+      s.start.getFullYear() === today.getFullYear()
+    );
+  });
+}
+
+export const getLocalSchedule = unstable_cache(
+  INTERNAL_getLocalSchedule,
+  ["local_schedule"],
+  { revalidate: 6 * 60 * 60 },
+);

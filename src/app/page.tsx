@@ -6,18 +6,19 @@ import SelectImplentation from "./_components/select-implentation";
 import ErrorHandler from "./_components/ErrorBondary";
 export const runtime = "edge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 export default async function Home() {
   void api.henallux.getImplentations.prefetch();
   return (
     <HydrateClient>
-      {/* 90vh */}
       <div className="min-w-screen mx-auto min-h-[calc(100vh-4rem)] justify-center">
         <Tabs
           defaultValue="agenda"
           className="mx-auto w-[600px] py-24 lg:py-32"
         >
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="agenda">Agenda</TabsTrigger>
+            <TabsTrigger value="local">Local</TabsTrigger>
             <TabsTrigger value="q&a">Q & A</TabsTrigger>
           </TabsList>
           <div className="container justify-center">
@@ -39,6 +40,20 @@ export default async function Home() {
                 <ErrorBoundary errorComponent={ErrorHandler}>
                   <Suspense fallback={<Loading size={30} />}>
                     <SelectImplentation />
+                  </Suspense>
+                </ErrorBoundary>
+              </div>
+            </TabsContent>
+            <TabsContent value="local">
+              <div className="mx-auto mt-5 max-w-2xl text-center">
+                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                  Est ce que le local est libre ?
+                </h1>
+              </div>
+              <div className="mt-5 flex w-full flex-col items-center justify-center gap-x-1 gap-y-5 sm:gap-x-3">
+                <ErrorBoundary errorComponent={ErrorHandler}>
+                  <Suspense fallback={<Loading size={30} />}>
+                    <SelectImplentation isLocal={true} />
                   </Suspense>
                 </ErrorBoundary>
               </div>

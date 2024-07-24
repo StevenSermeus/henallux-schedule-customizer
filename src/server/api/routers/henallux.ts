@@ -4,6 +4,8 @@ import {
   getClass,
   getCourse,
   getImplentations,
+  getLocalSchedule,
+  getLocaux,
   getOrientations,
   getYear,
 } from "@/henallux";
@@ -68,5 +70,24 @@ export const henallux = createTRPCRouter({
         );
       }
       return courses;
+    }),
+  getLocaux: publicProcedure
+    .input(z.coerce.number())
+    .query(async ({ input }) => {
+      return await getLocaux(input);
+    }),
+  isLocalFree: publicProcedure
+    .input(
+      z.object({
+        local_id: z.coerce.number(),
+      }),
+    )
+    .query(async ({ input }) => {
+      //new date mardi 18 juin 2024
+      const test = new Date(2024, 5, 18, 8, 0, 0);
+      console.log("houres", new Date().getHours());
+      console.log("minutes", new Date().getMinutes());
+      const res = await getLocalSchedule(input.local_id, test);
+      return res;
     }),
 });

@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/select";
 import { Loading } from "./loading";
 import SelectOrientation from "./select-orientation";
-export default function SelectImplentation() {
+import SelectLocal from "./select-local";
+export default function SelectImplentation({ isLocal }: { isLocal?: boolean }) {
   const [implentation] = api.henallux.getImplentations.useSuspenseQuery();
   const [selectedImplentation, setSelectedImplentation] = React.useState<
     null | number
@@ -40,7 +41,11 @@ export default function SelectImplentation() {
       </Select>
       <Suspense fallback={<Loading size={20} />}>
         {selectedImplentation ? (
-          <SelectOrientation implentation_id={selectedImplentation} />
+          isLocal ? (
+            <SelectLocal implentation_id={selectedImplentation} />
+          ) : (
+            <SelectOrientation implentation_id={selectedImplentation} />
+          )
         ) : null}
       </Suspense>
     </>
