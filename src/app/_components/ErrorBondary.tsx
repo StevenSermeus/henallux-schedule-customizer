@@ -9,7 +9,7 @@ function ErrorHandler({
 }) {
   return (
     <>
-      <p>Y a un truc qui a peté mon gars</p>
+      <p>Something went wrong :c</p>
       <pre>{error.message}</pre>
       <button onClick={reset}>Retry</button>
     </>
