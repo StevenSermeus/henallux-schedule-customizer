@@ -83,8 +83,8 @@ export const henallux = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      console.log("houres", new Date().getHours());
-      console.log("minutes", new Date().getMinutes());
+      // Known issue vercel host in a timezone that is 2 hours behind ours so there is a timming
+      // when the data may not be accurate
       const res = await getLocalSchedule(input.local_id, new Date());
       return res;
     }),
