@@ -83,11 +83,9 @@ export const henallux = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      //new date mardi 18 juin 2024
-      const test = new Date(2024, 5, 18, 8, 0, 0);
       console.log("houres", new Date().getHours());
       console.log("minutes", new Date().getMinutes());
-      const res = await getLocalSchedule(input.local_id, test);
+      const res = await getLocalSchedule(input.local_id, new Date());
       return res;
     }),
 });
