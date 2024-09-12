@@ -9,6 +9,7 @@ export const getImplentations = unstable_cache(
 
 async function INTERNAL_getImplentations() {
   try {
+    console.log("fetching implentations");
     const response = await fetch(
       "https://portail.henallux.be/api/implantations/my",
       {
@@ -37,6 +38,7 @@ async function INTERNAL_getImplentations() {
       message: string;
       code: number;
     };
+    console.log(res);
     return res.data.map((impl) => {
       return {
         key: impl.key,
