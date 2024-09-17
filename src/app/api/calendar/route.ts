@@ -121,6 +121,7 @@ async function createEvents(
       title: lesson.title,
       location: lesson.location,
       description: lesson.text,
+      startInputType: "utc" as const,
       start: convertTimestampToArray(lesson.start),
       end: convertTimestampToArray(lesson.end),
     });
@@ -134,9 +135,7 @@ function convertTimestampToArray(timestamp: string) {
   const day = parseInt(timestamp.slice(6, 8));
   const hour = parseInt(timestamp.slice(9, 11));
   const minute = parseInt(timestamp.slice(11, 13));
-  // The example array does not include seconds, so we will omit them.
-
-  return [year, month, day, hour, minute] as [
+  return [year, month, day, hour - 2, minute] as [
     number,
     number,
     number,
