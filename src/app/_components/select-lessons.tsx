@@ -120,6 +120,10 @@ export default function SelectLessons({
                 >
                   Copier le lien <ClipboardIcon className="ml-2 h-4 w-4" />
                 </Button>
+                <p className="text-muted">
+                  Si vous utilisez Google Agenda, les liens peuvent être trop
+                  long utilisez un raccourcisseur de lien ^^
+                </p>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Click pour copier le lien</p>
