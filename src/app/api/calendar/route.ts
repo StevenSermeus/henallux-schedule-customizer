@@ -71,7 +71,7 @@ export async function GET(request: Request) {
     console.error(res.error, "Failed to create ics file");
     return Response.json({ error: res.error }, { status: 500 });
   }
-
+  console.log(`Successfully created ics file with ${flatEvents.length} events`);
   return new Response(
     new File([res.value], "calendar.ics", { type: "text/calendar" }),
     { status: 200 },
@@ -126,6 +126,7 @@ async function createEvents(
       end: convertTimestampToArray(lesson.end),
     });
   }
+
   return events;
 }
 
@@ -135,7 +136,7 @@ function convertTimestampToArray(timestamp: string) {
   const day = parseInt(timestamp.slice(6, 8));
   const hour = parseInt(timestamp.slice(9, 11));
   const minute = parseInt(timestamp.slice(11, 13));
-  return [year, month, day, hour - 2, minute] as [
+  return [year, month, day, hour - 1, minute] as [
     number,
     number,
     number,
